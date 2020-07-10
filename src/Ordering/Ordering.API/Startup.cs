@@ -62,14 +62,16 @@ namespace Ordering.API
 
                 return new RabbitMQConnection(factory);
             });
-            services.AddSingleton<EventBusRabbitMQConsumer>();
 
-            services.AddAutoMapper(typeof(Startup));
-            services.AddMediatR(typeof(CheckoutOrderHandler).GetTypeInfo().Assembly);
-
-            services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IOrderRepository), typeof(OrderRepository));
+            services.AddTransient<IOrderRepository, OrderRepository>();
+
+            services.AddAutoMapper(typeof(Startup));
+
+            services.AddMediatR(typeof(CheckoutOrderHandler).GetTypeInfo().Assembly);
+
+            services.AddSingleton<EventBusRabbitMQConsumer>();
 
             services.AddControllers();
 
